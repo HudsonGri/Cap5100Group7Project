@@ -28,28 +28,33 @@ export default function Overworld() {
     return (
         <div>
         <Image
-          src="/game/overview.jpg"
+          src="/game/overworld background.png"
           alt="Overworld Background"
+          //width={960} 
+          //height={528}
           layout="fill"
-          objectFit="fill"
-          className="object-right"
+          objectFit="cover"
+          className="background"
+          //fill={true}
         />
 
-        <div style={{position:"absolute", float: "right", bottom: 170, right:100}}>
-            <Button className="py-6 px-8 text-2xl" onClick={handleLevel}>
+        <div style={{position:"absolute", bottom: 150, right: 1000}}>
         <Link href="/demogame">
-        <Image
-            src="/game/border.jpg"
-            alt="demogame"
-            layout="fill"
-            objectFit="scale-down"
-            className="object-right"
-            />
-        </Link>
+        <Button className="h-9 px-4 py-2" onClick={handleLevel} disabled={false}>
             Level 1
         </Button>
+        </Link>
+        <Image
+            src="/game/level_objects/AB_terminals.png"
+            alt="terminals"
+            //layout="fill"
+            width={100}
+            height={100}
+            objectFit="scale-down"
+            className=""
+            />
         </div>
-        
+
         </div>        
     );
 }

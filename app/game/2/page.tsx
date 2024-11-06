@@ -21,11 +21,14 @@ export default function Game() {
 
   const runCode = async () => {
     try {
-      const response = await fetch("http://localhost:8000/execute_code", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
-      });
+      const response = await fetch(
+        "https://interpret-api.onrender.com/execute_code",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code }),
+        }
+      );
 
       const result = await response.json();
 
@@ -50,7 +53,6 @@ export default function Game() {
       ) {
         if (result.variables) {
           setVariables(result.variables);
-          console.log(result.variables);
         }
         setTimeout(() => {
           setCurrentStepIndex((prev) =>
@@ -80,7 +82,7 @@ export default function Game() {
           objectFit="cover"
           className="object-right blur-md"
         />
-        {output && variables && (
+        {Object.keys(variables).length > 0 && (
           <div
             id="id-card"
             className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md overflow-hidden"

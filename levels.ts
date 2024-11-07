@@ -29,7 +29,7 @@ export const levels: Level[] = [
     hints: [
       "Remember to use parentheses () after print",
       "String literals in Python can use either single quotes '' or double quotes \"\"",
-      "Don't forget the exclamation mark!",
+      "Don't forget the period.",
       'The print statement should look like: print("Your message here")',
     ],
     dialogue: {

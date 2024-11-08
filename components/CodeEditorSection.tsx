@@ -16,6 +16,7 @@ const CodeEditorSection = ({
   output,
   isEditorLoading,
   isDisabled,
+  isRunning,
 }) => {
   // Function to format the output with proper coloring
   const formatOutput = (outputText) => {
@@ -56,6 +57,7 @@ const CodeEditorSection = ({
         onClick={onRunCode}
         disabled={isDisabled}
       >
+        {isRunning ? <LoadingSpinner className="mr-2" /> : null}
         Run Code
       </Button>
 
@@ -67,7 +69,7 @@ const CodeEditorSection = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="bg-black rounded-md p-4">
+          <div className="bg-black rounded-md p-4 max-h-[300px] overflow-y-auto">
             <pre className="font-mono text-sm whitespace-pre-wrap">
               {formatOutput(output)}
             </pre>

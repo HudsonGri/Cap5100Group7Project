@@ -16,10 +16,12 @@ export default function Game() {
   const [output, setOutput] = useState("");
   const [levelDone, setLevelDone] = useState(false);
   const [variables, setVariables] = useState({});
+  const [isRunning, setIsRunning] = useState(false);
 
   const currentStep = level.dialogue.steps[currentStepIndex];
 
   const runCode = async () => {
+    setIsRunning(true);
     try {
       const response = await fetch(
         "https://interpret-api.onrender.com/execute_code",
@@ -70,6 +72,7 @@ export default function Game() {
       console.error(error);
       setOutput("An error occurred while running the code.");
     }
+    setIsRunning(false);
   };
 
   return (
@@ -97,7 +100,12 @@ export default function Game() {
           </div>
         )}
 
-        <PyDialogue text={currentStep.text} key={currentStepIndex} />
+        <PyDialogue
+          text={currentStep.text}
+          dialogue={level.dialogue}
+          stepIndex={currentStepIndex}
+          key={currentStepIndex}
+        />
       </div>
 
       <ScrollArea className="w-2/5 border-l border-zinc-700 bg-zinc-900">
@@ -117,6 +125,7 @@ export default function Game() {
             output={output}
             isEditorLoading={false}
             isDisabled={levelDone}
+            isRunning={isRunning}
           />
           <HintsAccordion hints={currentStep.hints || level.hints} />
         </aside>

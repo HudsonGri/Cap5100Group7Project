@@ -8,8 +8,10 @@ import PyDialogue from "@/components/PyDialogue";
 import HintsAccordion from "@/components/HintsAccordian";
 import IdCard from "@/components/IdCard";
 import { levels, Level } from "@/levels";
+import { useRouter } from "next/navigation";
 
 export default function Game() {
+  const router = useRouter();
   const level: Level = levels[1];
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [code, setCode] = useState(level.codeTemplate);
@@ -21,7 +23,6 @@ export default function Game() {
   const [isDialogueDone, setIsDialogueDone] = useState(false);
 
   const currentStep = level.dialogue.steps[currentStepIndex];
-
   React.useEffect(() => {
     if (isDialogueDone) {
       if (!currentStep.expectedOutput) {
@@ -41,8 +42,17 @@ export default function Game() {
     level.dialogue.steps.length,
   ]);
 
+  React.useEffect(() => {
+    if (levelDone) {
+      setTimeout(() => {
+        router.push("/overworld");
+      }, 5000);
+    }
+  }, [levelDone, router]);
+
   const runCode = async () => {
     setIsRunning(true);
+    setFailureMessage(""); // Clear failure message when running new code
     try {
       const response = await fetch(
         //"https://interpret-api.onrender.com/execute_code",
@@ -146,6 +156,7 @@ export default function Game() {
             isDisabled={levelDone}
             failureMessage={failureMessage}
             isRunning={isRunning}
+            currentStep={currentStep}
           />
           <HintsAccordion hints={currentStep.hints || level.hints} />
         </aside>

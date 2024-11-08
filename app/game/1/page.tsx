@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -8,8 +8,10 @@ import CodeEditorSection from "@/components/CodeEditorSection";
 import PyDialogue from "@/components/PyDialogue";
 import HintsAccordion from "@/components/HintsAccordian";
 import { levels, Level } from "@/levels";
+import { useRouter } from "next/navigation";
 
 export default function Game() {
+  const router = useRouter();
   const level: Level = levels[0];
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [code, setCode] = useState(level.codeTemplate);
@@ -20,11 +22,20 @@ export default function Game() {
 
   const currentStep = level.dialogue.steps[currentStepIndex];
 
+  useEffect(() => {
+    if (levelDone) {
+      setTimeout(() => {
+        router.push("/overworld");
+      }, 5000);
+    }
+  }, [levelDone, router]);
+
   const runCode = async () => {
     try {
       setIsRunning(true);
       const response = await fetch(
-        "https://interpret-api.onrender.com/execute_code",
+        "http://localhost:8000/execute_code",
+        //"https://interpret-api.onrender.com/execute_code",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -34,6 +45,8 @@ export default function Game() {
 
       const result = await response.json();
       setOutput(result);
+      const resProcessed =
+        result.output || result.detail || result.message || "No output";
 
       if (
         currentStep.expectedOutput &&
@@ -44,7 +57,7 @@ export default function Game() {
           setCurrentStepIndex((prev) =>
             prev + 1 < level.dialogue.steps.length ? prev + 1 : prev
           );
-          setLevelDone(currentStepIndex + 1 >= level.dialogue.steps.length);
+          setLevelDone(currentStepIndex + 1 >= level.dialogue.steps.length - 1);
         }, 2000);
       } else {
         setTerminalOutput(
@@ -102,6 +115,7 @@ export default function Game() {
             isEditorLoading={false}
             isDisabled={levelDone}
             failureMessage={""}
+            currentStep={currentStep}
             isRunning={isRunning}
           />
           <HintsAccordion hints={currentStep.hints || level.hints} />

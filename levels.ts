@@ -3,8 +3,10 @@ export interface DialogueStep {
   expectedOutput?: {
     output: string; // The expected output after executing the code
     variables?: { [key: string]: any }; // Variables can be either defined or just a variable type
+    expectedCode?: string; // Example of expected code
   };
   hints?: string[]; // Optional hints to help the user
+  codeImport?: string; // Optional code to add to end of the user's code editor
 }
 
 export interface Dialogue {
@@ -39,11 +41,12 @@ export const levels: Level[] = [
             "Ah, the classic! Before you can command the lab, you've got to make sure it listens! Let's start by printing a simple message. Type exactly this: `print('Hello Lab.')` and hit enter. This command tells the computer to say something.",
           expectedOutput: {
             output: "Hello Lab.",
+            expectedCode: "print('Hello Lab.')",
           },
         },
         {
           text:
-            "Excellent work! You've made your first print statement in Python! Now lets head back to the lab.",
+            "Excellent work! You've made your first print statement in Python! Now lets go back to the lab. Redirecting you now...",
         },
       ],
     },
@@ -84,35 +87,51 @@ export const levels: Level[] = [
               weight: "number",
               is_lab_member: "boolean",
             },
+            expectedCode:
+              "name = 'Your Name'\nage = 25\nheight = 1.75\nweight = 70\nis_lab_member = True",
           },
+          hints: [
+            "Strings are enclosed in quotes, e.g., 'Your Name'",
+            "Integers are whole numbers, e.g., 25",
+            "Floats are decimal numbers, e.g., 1.75",
+            "Booleans are either True or False",
+          ],
         },
         {
           text:
-            "Perfect! Now, just for fun, let’s see how your weight would look in pounds. You can do that by converting it—type `weight_pounds = int(weight * 2.20462)`. Easy, right?",
+            "Perfect! Now, just for fun, let's see how your weight would look in pounds. You can do that by converting it—type `weight_pounds = int(weight * 2.20462)`. Easy, right?",
           expectedOutput: {
             output: "",
             variables: {
               weight_pounds: "number",
             },
+            expectedCode: "weight_pounds = int(weight * 2.20462)",
           },
+          hints: [
+            "To convert weight to pounds, multiply by 2.20462 and use int() to get a whole number",
+            "To convert Celsius to Fahrenheit, multiply by 1.8 and add 32",
+          ],
         },
         {
           text:
-            "And hey, while we’re at it, why not convert your body temperature to Fahrenheit, too? Just a little challenge for you. Think about it: if Celsius goes up by 1 degree, Fahrenheit should go up by a bit more. I’m sure you’ll figure out the formula!",
+            "Let me just take your temperature real quick... 37 degrees Celsius, perfectly normal! I've added that to your profile as 'body_temperature'. Now, could you help me convert that to Fahrenheit? The lab equipment here uses both systems, so it's always good to have both readings. Make sure you name the variable 'body_temperature_fahrenheit'.",
           hints: [
             "Hint 1: Multiply by 1.8 and add 32",
             "Hint 2: body_temperature_fahrenheit = body_temperature * 1.8 + 32",
           ],
+          codeImport: "body_temperature = 37",
           expectedOutput: {
             output: "",
             variables: {
               body_temperature_fahrenheit: "number",
             },
+            expectedCode:
+              "body_temperature_fahrenheit = body_temperature * 1.8 + 32",
           },
         },
         {
           text:
-            "Now that’s a proper lab ID! You’ve handled strings, integers, floats, and Booleans like a pro. Next up, let’s visit the storage locker. It’s time to learn about lists so we can keep track of items in the lab. Ready?",
+            "Now that's a proper lab ID! You've handled strings, integers, floats, and Booleans like a pro. Next up, let's visit the storage locker. It's time to learn about lists so we can keep track of items in the lab. Ready? Redirecting you now...",
         },
       ],
     },

@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Terminal, CircleHelp } from "lucide-react";
 import { LoadingSpinner } from "@/components/loading-spinner";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const CodeEditor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
@@ -18,7 +24,11 @@ const CodeEditorSection = ({
   isEditorLoading,
   isDisabled,
   failureMessage,
+  currentStep,
 }) => {
+  const [helpResponse, setHelpResponse] = useState("");
+  const [isLoadingHelp, setIsLoadingHelp] = useState(false);
+
   // Function to format the output with proper coloring
   const formatOutput = (outputText) => {
     if (!outputText) return null;
@@ -31,6 +41,41 @@ const CodeEditorSection = ({
       </span>
     ));
   };
+
+  const handleHelpClick = async () => {
+    try {
+      setIsLoadingHelp(true);
+      const response = await fetch("http://localhost:8000/llm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          expected_code: currentStep?.expectedOutput?.expectedCode,
+          user_code: code,
+          error: codeOutput.output,
+        }),
+      });
+      const data = await response.json();
+      setHelpResponse(data.response);
+    } catch (error) {
+      console.error("Error calling LLM API:", error);
+      setHelpResponse("Sorry, there was an error getting help.");
+    } finally {
+      setIsLoadingHelp(false);
+    }
+  };
+
+  // Handle code import from current step
+  React.useEffect(() => {
+    if (currentStep?.codeImport) {
+      onCodeChange((prevCode) => {
+        return prevCode
+          ? `${prevCode}\n${currentStep.codeImport}`
+          : currentStep.codeImport;
+      });
+    }
+  }, [currentStep, onCodeChange]);
 
   return (
     <div className="flex flex-col space-y-6">
@@ -76,15 +121,39 @@ const CodeEditorSection = ({
           <div className="bg-black rounded-md p-4 relative">
             <AnimatePresence>
               {codeOutput.error && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.2, delay: 0.5 }}
-                  className="absolute top-2 right-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 p-2 cursor-pointer"
-                >
-                  <CircleHelp className="w-4 h-4 text-white" />
-                </motion.div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 0.2, delay: 0.5 }}
+                      className="absolute top-2 right-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 p-2 cursor-pointer"
+                      onClick={handleHelpClick}
+                    >
+                      <CircleHelp className="w-4 h-4 text-white" />
+                    </motion.div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="grid gap-4">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none">
+                          Additional Help
+                        </h4>
+                        {isLoadingHelp ? (
+                          <div className="space-y-2">
+                            <Skeleton className="h-4 w-[250px]" />
+                            <Skeleton className="h-4 w-[200px]" />
+                          </div>
+                        ) : (
+                          <p className="text-sm text-muted-foreground">
+                            {helpResponse}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
               )}
             </AnimatePresence>
             <pre className="font-mono text-sm whitespace-pre-wrap">

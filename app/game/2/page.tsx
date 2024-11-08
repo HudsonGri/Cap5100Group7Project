@@ -55,8 +55,8 @@ export default function Game() {
     setFailureMessage(""); // Clear failure message when running new code
     try {
       const response = await fetch(
-        //"https://interpret-api.onrender.com/execute_code",
-        "http://localhost:8000/execute_code",
+        "https://interpret-api.onrender.com/execute_code",
+        //"http://localhost:8000/execute_code",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

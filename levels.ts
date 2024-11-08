@@ -77,7 +77,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "Go ahead—try assigning each detail to a variable. Start with something like `name = 'Your Name'`, `age = 25`, and `height = 1.75`. Oh, and don't forget `is_lab_member = True`—we have to keep track of the VIPs around here!",
+            "Go ahead—try assigning each detail to a variable. Start with something like `name = 'Your Name'`, `age = 25`, `weight = 65`, and `height = 1.75`. Oh, and don't forget `is_lab_member = True`—we have to keep track of the VIPs around here!",
           expectedOutput: {
             output: "",
             variables: {

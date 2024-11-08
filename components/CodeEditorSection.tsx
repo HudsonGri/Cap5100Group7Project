@@ -45,17 +45,21 @@ const CodeEditorSection = ({
   const handleHelpClick = async () => {
     try {
       setIsLoadingHelp(true);
-      const response = await fetch("http://localhost:8000/llm", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          expected_code: currentStep?.expectedOutput?.expectedCode,
-          user_code: code,
-          error: codeOutput.output,
-        }),
-      });
+      const response = await fetch(
+        //"http://localhost:8000/llm",
+        "https://interpret-api.onrender.com/llm",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            expected_code: currentStep?.expectedOutput?.expectedCode,
+            user_code: code,
+            error: codeOutput.output,
+          }),
+        }
+      );
       const data = await response.json();
       setHelpResponse(data.response);
     } catch (error) {

@@ -39,7 +39,7 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
 
   return (
     <div
-      className="absolute bottom-0 left-0 right-0 h-40 bg-zinc-900 flex items-center px-4 overflow-y-auto"
+      className="absolute bottom-0 left-0 right-0 h-60 bg-zinc-900 flex items-center px-4 overflow-y-auto"
       ref={dialogueRef}
     >
       <div className="relative w-16 h-16 flex-shrink-0">
@@ -53,7 +53,7 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
           />
         </div>
       </div>
-      <div className="text-white text-lg p-4 h-3/4">
+      <div className="text-white text-xl p-4 h-1/2">
         <TypewriterText text={text} onComplete={onDialogueDone} />
       </div>
       {stepIndex > 0 && (

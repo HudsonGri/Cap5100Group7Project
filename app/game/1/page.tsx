@@ -34,8 +34,8 @@ export default function Game() {
     try {
       setIsRunning(true);
       const response = await fetch(
-        "http://localhost:8000/execute_code",
-        //"https://interpret-api.onrender.com/execute_code",
+        //"http://localhost:8000/execute_code",
+        "https://interpret-api.onrender.com/execute_code",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

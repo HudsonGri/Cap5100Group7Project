@@ -33,9 +33,7 @@ export default function Game() {
       );
 
       const result = await response.json();
-      const resProcessed =
-        result.output || result.detail || result.message || "No output";
-      setOutput(resProcessed);
+      setOutput(result);
 
       if (
         currentStep.expectedOutput &&
@@ -100,9 +98,10 @@ export default function Game() {
             code={code}
             onCodeChange={setCode}
             onRunCode={runCode}
-            output={output}
+            codeOutput={output}
             isEditorLoading={false}
             isDisabled={levelDone}
+            failureMessage={""}
             isRunning={isRunning}
           />
           <HintsAccordion hints={currentStep.hints || level.hints} />

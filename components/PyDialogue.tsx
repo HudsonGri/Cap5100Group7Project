@@ -19,16 +19,17 @@ interface Dialogue {
 interface PyDialogueProps {
   text: string;
   dialogue?: Dialogue;
-  stepIndex: number; // Changed from key to stepIndex
+  stepIndex: number;
+  onDialogueDone?: () => void;
 }
 
 const PyDialogue: React.FC<PyDialogueProps> = ({
   text,
   dialogue,
   stepIndex,
+  onDialogueDone,
 }) => {
   const dialogueRef = useRef<HTMLDivElement>(null);
-  console.log("stepIndex:" + stepIndex);
 
   useEffect(() => {
     if (dialogueRef.current) {
@@ -53,13 +54,13 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
         </div>
       </div>
       <div className="text-white text-lg p-4 h-3/4">
-        <TypewriterText text={text} />
+        <TypewriterText text={text} onComplete={onDialogueDone} />
       </div>
       {stepIndex > 0 && (
         <div className="absolute bottom-2 right-2">
           <Popover>
             <PopoverTrigger asChild>
-              <div className="rounded-lg bg-zinc-800 p-2 cursor-pointer">
+              <div className="rounded-lg bg-zinc-800 hover:bg-zinc-700 p-2 cursor-pointer">
                 <MessageSquareTextIcon className="w-4 h-4 text-white" />
               </div>
             </PopoverTrigger>
@@ -71,12 +72,11 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
                     {dialogue?.steps
                       .slice(0, stepIndex + 1)
                       .map((step, index) => (
-                        <p
-                          key={index}
-                          className="text-sm border-l-2 border-zinc-700 pl-2"
-                        >
-                          {step.text}
-                        </p>
+                        <div className="py-1" key={index}>
+                          <p className="text-sm border-l-2 border-zinc-700 pl-2">
+                            {step.text}
+                          </p>
+                        </div>
                       ))}
                   </div>
                 </div>

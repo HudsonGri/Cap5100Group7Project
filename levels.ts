@@ -66,13 +66,22 @@ export const levels: Level[] = [
       steps: [
         {
           text:
-            "Ah, the Personal ID Station—my favorite gadget. So, here’s how it works: every bit of information you enter—your name, age, even if you’re a member of the lab—is stored as a variable. Each variable has its own type, depending on what it holds.\n\n\n For example, your name is a ‘string,’ which means it’s text. Your age, well, that’s a whole number or an ‘integer’—like 25. And then there’s your height and weight, which are decimal numbers or ‘floats.’ Oh, and if you’re a lab member, that’s a yes or no, or what we call a ‘Boolean’—`True` or `False`!\n\n\nGo ahead—try assigning each detail to a variable. Start with something like `name = 'Your Name'`, `age = 25`, and `height = 1.75`. Oh, and don’t forget `is_lab_member = True`—we have to keep track of the VIPs around here!",
+            "Ah, the Personal ID Station—my favorite gadget. So, here's how it works: every bit of information you enter—your name, age, even if you're a member of the lab—is stored as a variable. Each variable has its own type, depending on what it holds.",
+        },
+        {
+          text:
+            "For example, your name is a 'string,' which means it's text. Your age, well, that's a whole number or an 'integer'—like 25. And then there's your height and weight, which are decimal numbers or 'floats.' Oh, and if you're a lab member, that's a yes or no, or what we call a 'Boolean'—`True` or `False`!",
+        },
+        {
+          text:
+            "Go ahead—try assigning each detail to a variable. Start with something like `name = 'Your Name'`, `age = 25`, and `height = 1.75`. Oh, and don't forget `is_lab_member = True`—we have to keep track of the VIPs around here!",
           expectedOutput: {
             output: "",
             variables: {
               name: "string",
               age: "number",
               height: "number",
+              weight: "number",
               is_lab_member: "boolean",
             },
           },
@@ -83,7 +92,7 @@ export const levels: Level[] = [
           expectedOutput: {
             output: "",
             variables: {
-              weight_pounds: "integer",
+              weight_pounds: "number",
             },
           },
         },
@@ -92,12 +101,12 @@ export const levels: Level[] = [
             "And hey, while we’re at it, why not convert your body temperature to Fahrenheit, too? Just a little challenge for you. Think about it: if Celsius goes up by 1 degree, Fahrenheit should go up by a bit more. I’m sure you’ll figure out the formula!",
           hints: [
             "Hint 1: Multiply by 1.8 and add 32",
-            "Hint 2: `body_temperature_fahrenheit = body_temperature * 1.8 + 32`",
+            "Hint 2: body_temperature_fahrenheit = body_temperature * 1.8 + 32",
           ],
           expectedOutput: {
             output: "",
             variables: {
-              body_temperature_fahrenheit: "float",
+              body_temperature_fahrenheit: "number",
             },
           },
         },

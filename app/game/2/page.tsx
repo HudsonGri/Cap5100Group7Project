@@ -14,17 +14,39 @@ export default function Game() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [code, setCode] = useState(level.codeTemplate);
   const [output, setOutput] = useState("");
+  const [failureMessage, setFailureMessage] = useState("");
   const [levelDone, setLevelDone] = useState(false);
   const [variables, setVariables] = useState({});
   const [isRunning, setIsRunning] = useState(false);
+  const [isDialogueDone, setIsDialogueDone] = useState(false);
 
   const currentStep = level.dialogue.steps[currentStepIndex];
+
+  React.useEffect(() => {
+    if (isDialogueDone) {
+      if (!currentStep.expectedOutput) {
+        setTimeout(() => {
+          setCurrentStepIndex((prev) =>
+            prev + 1 < level.dialogue.steps.length ? prev + 1 : prev
+          );
+          setLevelDone(currentStepIndex + 1 >= level.dialogue.steps.length);
+          setIsDialogueDone(false);
+        }, 2000);
+      }
+    }
+  }, [
+    isDialogueDone,
+    currentStep,
+    currentStepIndex,
+    level.dialogue.steps.length,
+  ]);
 
   const runCode = async () => {
     setIsRunning(true);
     try {
       const response = await fetch(
-        "https://interpret-api.onrender.com/execute_code",
+        //"https://interpret-api.onrender.com/execute_code",
+        "http://localhost:8000/execute_code",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -34,24 +56,20 @@ export default function Game() {
 
       const result = await response.json();
 
-      const resProcessed =
-        result.output || result.detail || result.message || "No output";
-      setOutput(resProcessed);
-
-      console.log(currentStep.expectedOutput);
+      // Include full result output
+      setOutput(result);
 
       if (
         result.variables &&
         currentStep.expectedOutput &&
         currentStep.expectedOutput.variables &&
-        typeof result.variables.name ===
-          currentStep.expectedOutput.variables.name &&
-        typeof result.variables.age ===
-          currentStep.expectedOutput.variables.age &&
-        typeof result.variables.height ===
-          currentStep.expectedOutput.variables.height &&
-        typeof result.variables.is_lab_member ===
-          currentStep.expectedOutput.variables.is_lab_member
+        Object.keys(currentStep.expectedOutput.variables).every((key) => {
+          return (
+            result.variables[key] !== undefined &&
+            typeof result.variables[key] ===
+              currentStep.expectedOutput.variables[key]
+          );
+        })
       ) {
         if (result.variables) {
           setVariables(result.variables);
@@ -64,8 +82,8 @@ export default function Game() {
         }, 2000);
       } else {
         console.log("else");
-        setOutput(
-          "Your output doesn't match what's expected. Check the console output and try again!"
+        setFailureMessage(
+          "Oops, your output doesn't match the expected output. Check hints or click the help icon for guidance."
         );
       }
     } catch (error) {
@@ -105,6 +123,7 @@ export default function Game() {
           dialogue={level.dialogue}
           stepIndex={currentStepIndex}
           key={currentStepIndex}
+          onDialogueDone={() => setIsDialogueDone(true)}
         />
       </div>
 
@@ -122,9 +141,10 @@ export default function Game() {
             code={code}
             onCodeChange={setCode}
             onRunCode={runCode}
-            output={output}
+            codeOutput={output}
             isEditorLoading={false}
             isDisabled={levelDone}
+            failureMessage={failureMessage}
             isRunning={isRunning}
           />
           <HintsAccordion hints={currentStep.hints || level.hints} />

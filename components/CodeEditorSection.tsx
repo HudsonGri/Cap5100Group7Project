@@ -2,8 +2,9 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Terminal } from "lucide-react";
+import { Terminal, CircleHelp } from "lucide-react";
 import { LoadingSpinner } from "@/components/loading-spinner";
+import { motion, AnimatePresence } from "framer-motion";
 
 const CodeEditor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
@@ -13,15 +14,19 @@ const CodeEditorSection = ({
   code,
   onCodeChange,
   onRunCode,
-  output,
+  codeOutput,
   isEditorLoading,
   isDisabled,
-  isRunning,
+  failureMessage,
 }) => {
   // Function to format the output with proper coloring
   const formatOutput = (outputText) => {
+    if (!outputText) return null;
     return outputText.split("\n").map((line, index) => (
-      <span key={index} className="block">
+      <span
+        key={index}
+        className={`block ${codeOutput.error ? "text-red-500" : ""}`}
+      >
         {line}
       </span>
     ));
@@ -57,7 +62,6 @@ const CodeEditorSection = ({
         onClick={onRunCode}
         disabled={isDisabled}
       >
-        {isRunning ? <LoadingSpinner className="mr-2" /> : null}
         Run Code
       </Button>
 
@@ -69,11 +73,27 @@ const CodeEditorSection = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="bg-black rounded-md p-4 max-h-[300px] overflow-y-auto">
+          <div className="bg-black rounded-md p-4 relative">
+            <AnimatePresence>
+              {codeOutput.error && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.2, delay: 0.5 }}
+                  className="absolute top-2 right-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 p-2 cursor-pointer"
+                >
+                  <CircleHelp className="w-4 h-4 text-white" />
+                </motion.div>
+              )}
+            </AnimatePresence>
             <pre className="font-mono text-sm whitespace-pre-wrap">
-              {formatOutput(output)}
+              {formatOutput(codeOutput.output)}
             </pre>
           </div>
+          {failureMessage && (
+            <div className="mt-4 text-base">{failureMessage}</div>
+          )}
         </CardContent>
       </Card>
     </div>

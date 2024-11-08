@@ -64,7 +64,7 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
                 <MessageSquareTextIcon className="w-4 h-4 text-white" />
               </div>
             </PopoverTrigger>
-            <PopoverContent className="w-80 max-h-96 overflow-y-auto">
+            <PopoverContent className="w-80 max-h-96 overflow-y-auto bg-zinc-900 shadow-zl">
               <div className="grid gap-4">
                 <div className="space-y-2">
                   <h4 className="text-xl leading-none">Chat History</h4>

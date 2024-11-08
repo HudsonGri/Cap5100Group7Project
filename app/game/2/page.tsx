@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -50,6 +50,13 @@ export default function Game() {
     }
   }, [levelDone, router]);
 
+  const updateVariables = (newVars) => {
+    setVariables((prev) => ({
+      ...prev,
+      ...newVars,
+    }));
+  };
+
   const runCode = async () => {
     setIsRunning(true);
     setFailureMessage(""); // Clear failure message when running new code
@@ -82,7 +89,7 @@ export default function Game() {
         })
       ) {
         if (result.variables) {
-          setVariables(result.variables);
+          updateVariables(result.variables);
         }
         setTimeout(() => {
           setCurrentStepIndex((prev) =>
@@ -123,7 +130,12 @@ export default function Game() {
               age={variables.age}
               height={variables.height}
               weight={variables.weight}
+              weight_pounds={variables.weight_pounds}
               isLabMember={variables.is_lab_member}
+              body_temperature={variables.body_temperature}
+              body_temperature_fahrenheit={
+                variables.body_temperature_fahrenheit
+              }
             />
           </div>
         )}

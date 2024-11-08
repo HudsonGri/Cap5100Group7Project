@@ -114,7 +114,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "Let me just take your temperature real quick... 37 degrees Celsius, perfectly normal! I've added that to your profile as 'body_temperature'. Now, could you help me convert that to Fahrenheit? The lab equipment here uses both systems, so it's always good to have both readings. Make sure you name the variable 'body_temperature_fahrenheit'.",
+            "Great job! Let me just take your temperature real quick... 37 degrees Celsius, perfectly normal! I've added that to your profile as 'body_temperature'. Now, could you help me convert that to Fahrenheit? The lab equipment here uses both systems, so it's always good to have both readings. Make sure you name the variable 'body_temperature_fahrenheit'.",
           hints: [
             "Hint 1: Multiply by 1.8 and add 32",
             "Hint 2: body_temperature_fahrenheit = body_temperature * 1.8 + 32",

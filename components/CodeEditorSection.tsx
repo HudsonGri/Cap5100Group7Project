@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Terminal, CircleHelp } from "lucide-react";
+import { Terminal, CircleHelp, BrainCircuit } from "lucide-react";
 import { LoadingSpinner } from "@/components/loading-spinner";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Skeleton } from "@/components/ui/skeleton";
+import ReactMarkdown from "react-markdown";
 
 const CodeEditor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
@@ -25,6 +26,7 @@ const CodeEditorSection = ({
   isDisabled,
   failureMessage,
   currentStep,
+  isRunning,
 }) => {
   const [helpResponse, setHelpResponse] = useState("");
   const [isLoadingHelp, setIsLoadingHelp] = useState(false);
@@ -109,9 +111,20 @@ const CodeEditorSection = ({
       <Button
         className="w-full py-6 text-lg font-semibold bg-blue-600 hover:bg-blue-700"
         onClick={onRunCode}
-        disabled={isDisabled}
+        disabled={
+          !currentStep.expectedOutput ||
+          currentStep.expectedOutput?.expectedCode === code ||
+          isDisabled ||
+          isRunning
+        }
       >
-        Run Code
+        {isRunning ? (
+          <span className="flex items-center gap-2">
+            <LoadingSpinner /> Run Code
+          </span>
+        ) : (
+          "Run Code"
+        )}
       </Button>
 
       <Card className="bg-zinc-800/50 border-zinc-700">
@@ -138,34 +151,43 @@ const CodeEditorSection = ({
                       <CircleHelp className="w-4 h-4 text-white" />
                     </motion.div>
                   </PopoverTrigger>
-                  <PopoverContent className="w-80">
-                    <div className="grid gap-4">
-                      <div className="space-y-2">
-                        <h4 className="font-medium leading-none">
+                  <PopoverContent
+                    className="w-96 p-4 bg-zinc-900 border border-zinc-700 shadow-xl rounded-xl"
+                    align="end"
+                    side="top"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 pb-2 border-b border-zinc-700">
+                        <BrainCircuit className="w-4 h-4 text-blue-400" />
+                        <h4 className="font-semibold text-zinc-100">
                           Additional Help
                         </h4>
-                        {isLoadingHelp ? (
-                          <div className="space-y-2">
-                            <Skeleton className="h-4 w-[250px]" />
-                            <Skeleton className="h-4 w-[200px]" />
-                          </div>
-                        ) : (
-                          <p className="text-sm text-muted-foreground">
-                            {helpResponse}
-                          </p>
-                        )}
                       </div>
+                      {isLoadingHelp ? (
+                        <div className="space-y-3">
+                          <Skeleton className="h-4 w-[90%] bg-zinc-800" />
+                          <Skeleton className="h-4 w-[75%] bg-zinc-800" />
+                          <Skeleton className="h-4 w-[85%] bg-zinc-800" />
+                          <Skeleton className="h-4 w-[80%] bg-zinc-800" />
+                        </div>
+                      ) : (
+                        <div className="text-sm leading-relaxed text-zinc-300 prose prose-invert max-w-none">
+                          <ReactMarkdown>{helpResponse}</ReactMarkdown>
+                        </div>
+                      )}
                     </div>
                   </PopoverContent>
                 </Popover>
               )}
             </AnimatePresence>
-            <pre className="font-mono text-sm whitespace-pre-wrap">
+            <pre className="font-mono text-sm whitespace-pre-wrap max-h-[200px] overflow-y-auto">
               {formatOutput(codeOutput.output)}
             </pre>
           </div>
           {failureMessage && (
-            <div className="mt-4 text-base">{failureMessage}</div>
+            <div className="mt-4 text-base text-orange-400">
+              {failureMessage}
+            </div>
           )}
         </CardContent>
       </Card>

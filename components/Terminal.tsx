@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 
 const Terminal = ({ input }) => {
   const [displayText, setDisplayText] = useState("");
@@ -42,21 +43,31 @@ const Terminal = ({ input }) => {
   }, [currentIndex, input, showLoadingBar]);
 
   return (
-    <div className="relative w-[400px] h-[300px] bg-black/90">
-      <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-3/4">
-        {showLoadingBar && (
-          <div className="w-full h-2 bg-gray-700 rounded">
-            <div
-              className="h-full bg-green-500 rounded transition-all duration-200"
-              style={{ width: `${loadingProgress}%` }}
-            />
-          </div>
-        )}
+    <div className="relative w-[500px] h-[500px]">
+      <div className="absolute w-[400px] h-[360px] bg-black/90 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-48">
+        <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-3/4">
+          {showLoadingBar && (
+            <div className="w-full h-2 bg-gray-700 rounded">
+              <div
+                className="h-full bg-green-500 rounded transition-all duration-200"
+                style={{ width: `${loadingProgress}%` }}
+              />
+            </div>
+          )}
 
-        <div className="font-mono text-green-500 mt-4 whitespace-pre-wrap">
-          {displayText}
+          <div className="font-mono text-green-500 mt-4 whitespace-pre-wrap">
+            {displayText}
+          </div>
         </div>
       </div>
+      <Image
+        src="/game/level1/terminal.png"
+        alt="Overlay with hole"
+        className="absolute top-0 left-0 object-cover pixelated"
+        style={{ imageRendering: "pixelated" }}
+        width={500}
+        height={400}
+      />
     </div>
   );
 };

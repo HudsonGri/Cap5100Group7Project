@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import TypewriterText from "@/components/TypewriterText";
 import { MessageSquareTextIcon } from "lucide-react";
+import Markdown from "react-markdown";
 import Image from "next/image";
 import {
   Popover,
@@ -73,9 +74,11 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
                       .slice(0, stepIndex + 1)
                       .map((step, index) => (
                         <div className="py-1" key={index}>
-                          <p className="text-sm border-l-2 border-zinc-700 pl-2">
-                            {step.text}
-                          </p>
+                          <div className="rounded overflow-hidden">
+                            <p className="text-sm border-l-2 border-zinc-700 pl-2 bg-black/20">
+                              <Markdown>{step.text}</Markdown>
+                            </p>
+                          </div>
                         </div>
                       ))}
                   </div>

@@ -46,7 +46,7 @@ export default function Game() {
     if (levelDone) {
       setTimeout(() => {
         router.push("/overworld");
-      }, 5000);
+      }, 8000);
     }
   }, [levelDone, router]);
 

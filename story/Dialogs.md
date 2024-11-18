@@ -94,68 +94,217 @@ Scene setup: display a storage locker with no doors (so player can see inside). 
 [append to lines to the code block: `fourth_item = `, `fifth_item = `]
 [The player fills in the code with `items[3]` and `items[4]`, and the corresponding items are highlighted in the locker.]
 
-**Prof**: Nicely done! Indexing starts from zero, so the fourth item is at `items[3]`. It's a useful way to grab any specific item in a list. But there's an even quicker way to access the last item…
+**Prof**: Nicely done! Indexing starts from zero, so the fourth item is at `items[3]`. It's a useful way to grab any specific item in a list...
+
+**Prof**: Wait... do you hear that? The Hot Gas Chambers are acting up again! The system’s out of sync, and the control panel is flashing red. Quick, let’s head over to the chambers! We need to fix this before the system overloads. Follow me!
 
 
-### 5. Accessing the last item:
+# Level 4: Pressure Calibration  
 
-**Prof** (Task): Here's a useful trick: to access the last item in a list, you can use `-1` as the index. Go ahead and try grabbing the last item using that index.
+**Scene Setup:**  
+The lab’s **Hot Gas Chambers** are malfunctioning, and the control panel displays critical information:  
 
-[append to lines to the code block: `last_item = `]
-[The player fills in the code with `items[-1]`, and the last item is highlighted in the locker.]
+1. `temperature_left`: 200  
+2. `temperature_right`: 300  
+3. `pressure`: 'Calibration Required'  
+4. `humidity`: 80
+5. `last_log`: ""  
+6. `session_logs`: []
+7. `all_logs`: ["System Initialized", "Temperature Adjusted", "Humidity Set",  "Unbalanced Chambers Detected"]
 
--- If the player types something like `last_item = items[6]` instead of `items[-1]`…
+Show flickering red on screen.
 
-**Prof**: Hmm, I see what you did there! Using `items[6]` gives you the last item right now, but what if we add or remove something from the list? Then `items[6]` might not point to the last item anymore. Let's try an experiment…
+---
 
-[The locker slots extends out of the screen, so the player can't see the last item anymore.]
+### 1. Balancing Chamber Temperatures  
 
-**Prof** (Task): Looks like this list is getting a little…long. It's best to use `-1` here to grab the last item without having to count. Go ahead and try `items[-1]` -- you'll get the last item no matter how many are on this never-ending list!
+**Prof** (Task):  
+The Hot Gas Chambers are out of sync! One chamber is at 200°C, and the other is at 300°C. To stabilize them, we need to calculate the average temperature of both chambers and assign it to `target_temperature`. 
+Which is to say, we need to add the temperatures of the left and right chambers together and then divide the result by 2. This will give us the balanced target temperature. Let’s do it! Remember, Python uses `/` for division, and don't forget to use parentheses to ensure the correct order of operations.
 
--- End if
+**Code Prompt:**  
+`target_temperature = `  
 
-**Prof**: Great job! Using `-1` is a handy way to grab the last item without knowing the exact length of the list. Now, let's get these items in order…
+[The player types: `(temperature_left + temperature_right) / 2`]
 
-### 6. Sorting the list:
+**Feedback:**  
+- The dynamic panel updates:  
+  - `temperature_left`: 200 -> 250
+  - `temperature_right`: 300 -> 250
+  - `last_log`: "Adjusted chambers to"
+  - `session_logs`: ["Adjusted chambers to"]
 
-**Prof** (Task): Sorting a list is another handy trick. Since our list has different types, sorting won't work as-is. How about creating a new list with only the text items -- 'banana', 'cup', 'pen', 'notebook', and 'pencil' -- and sorting that alphabetically?
+- The red flickering on the screen stops.
 
-[clear the code block and append to lines: `items = ['banana', 'cup', 'pen', 'notebook', 'pencil']`, the visual of the locker changes to reflect the new list]
+**Prof**: Nicely done! The temperatures are now balanced, and the chambers are stabilizing. But look at that log—it’s incomplete! Let’s fix it next.
 
-**Prof** (Task): Great! Now, to sort this new list, we'll use a function called `sort()`. It works a lot like `append()` -- we call it directly on the list, but we don't need to give it any parameters this time. Just type `items.sort()` and see what happens!
+---
 
-[The items in the locker rearrange themselves in alphabetical order.]
+### 2. Fixing a Broken Log  
 
-**Prof**: Nicely done! Sorting keeps everything in order, which is super helpful when managing long lists.
+**Prof** (Task):  
+The operation log is incomplete—it says nothing useful. Let’s update it to say what we just did! Start by adding 'Adjusted chambers to 250C' to `last_log`. Use string concatenation to do this.
 
-### Introducing `len()` function:
+**Code Prompt:**  
+`last_log = `
 
-**Prof** (Task): Now that we have a sorted list, let's see just how long it is. Python has a function called `len()` that lets you find the length of a list -- basically, how many items it has. Give it a try by typing `len(text_items)`. You can even save the result in a variable if you want to use it later!
+[The player types: `last_log = last_log + "250C"`]
 
-[append to lines: `list_length = `]
+**Feedback:**  
+- The dynamic panel updates:  
+  - `last_log`: "Balanced chambers to 250C"  
+  - `session_logs`: ["Adjusted chambers to 250C"]
 
-**Prof**: Nice! Now we know this list has exactly `5` items. The `len()` function is great for keeping track of list sizes, especially when they grow or shrink as we add or remove items.
+**Prof**: Great! But wait—this log is still missing a period. Let’s fix that using a simpler method. 
 
+---
 
-### Nested Lists (Optional):
+### 3. Simplifying Updates with `+=`  
 
-**Prof** (Task): Alright, let's take it up a notch! Sometimes we need to store lists inside other lists—for instance, each compartment in our locker could hold multiple items. Let's create a new list called locker_contents, where each inner list represents a different compartment. Try making a list like this: `[['banana', 'cup'], ['pen', 'notebook'], ['pencil']]`.
+**Prof** (Task):  
+Instead of writing `x = x + y` again, let’s use the shorthand `+=`. Add a period (".") to `last_log` using this shortcut.
 
-[clear code block, append to lines: `locker_contents = `]
-[The locker now shows the new nested list structure.]
+**Code Prompt:**  
+`last_log += `  
 
-**Prof**: Excellent! Now each compartment has its own list of items. This structure is called a nested list. Let's see how we can access individual items within these compartments.
+[The player types: `last_log += "."`]  
 
-**Prof** (Task): To get a specific item from a nested list, use two sets of brackets -- `[][]`. The first bracket selects the compartment, and the second bracket picks the item inside. For example, `locker_contents[0][1]` would give you `'cup'` from the first compartment. Why don't you try accessing the ***notebook*** from the second compartment?
+**Feedback:**  
+- The dynamic panel updates:  
+  - `last_log`: "Balanced chambers to 250C."  
+  - `session_logs`: ["Adjusted chambers to 250C"]
 
-[append to lines: `notebook = `]
+**Prof**: Perfect! The log looks much better now. Let’s move on to that flickering pressure gauge.
 
-[The player fills in the code with `locker_contents[1][1]`, and the notebook is highlighted in the locker.]
+---
 
-**Prof**: Fantastic work with those nested lists! You've really got the hang of organizing data into different levels. Lists are super handy for keeping track of objects and text.
+### 4. Pressure Calibration with Modulo  
 
-### Transition to Next Level:
+**Prof** (Task):  
+The pressure gauge needs recalibration. We’ll calculate a new pressure value based on the temperature and humidity using this formula:
 
-**Prof**: But now, let's switch gears. In this lab, we don't just store data -- we also control things. Take the *Temperature Control Panel*, for example. Here, we adjust and monitor temperature, humidity, and other settings using numbers.
+`calibrated_pressure = (temperature_left + humidity * 2) / 5 - 2`  
 
-**Prof**: Numbers are different from lists -- they're a bit more precise and require special operations. I'll show you how to increase, decrease, and combine numbers to control the labs environment. Let's head over to the Temperature Control Panel and dive in!
+This involves addition, multiplication, division, and subtraction. Let’s calculate the pressure.
+
+**Code Prompt:**  
+`calibrated_pressure = `  
+
+[The player types: `(temperature_left + humidity * 2) / 5 - 2`]  
+
+**Feedback:**  
+- The dynamic panel updates:  
+  - `calibrated_pressure`: (calculated value, e.g., 80)  
+  - `pressure`: "80 (Error: Invalid Pressure)"  
+
+**Prof**: Hmm… the pressure value is calculated, but the gauge still says 'Error: Invalid Pressure.' Oh! I forgot—the system only accepts pressures divisible by 3. Let’s check if our pressure is valid using the modulo operator (`%`).
+
+**Code Prompt:**  
+`remainder = calibrated_pressure % 3`  
+
+[The player types: `remainder = calibrated_pressure % 3`]  
+
+**Feedback:**  
+- The dynamic panel updates:  
+  - `pressure`: "80 (Error: Invalid Pressure), Remainder: 2"
+
+**Prof**: The remainder is 2! That’s why the gauge is rejecting it. To fix this, subtract the remainder from the current pressure. You can use the shorthand `-=` to make the adjustment.
+
+**Code Prompt:**  
+`calibrated_pressure -= `  
+
+[The player types: `calibrated_pressure -= remainder`]  
+
+**Feedback:**  
+- The dynamic panel updates:   
+  - `pressure`:  (adjusted value, e.g., 78)  
+  - `last_log`: "Pressure calibrated successfully."
+  - `session_logs`: ["Adjusted chambers to 250C", "Pressure calibrated successfully."]
+
+**Prof**: Fantastic! The pressure is now calibrated, and the system is happy. Modulo is such a useful tool for cyclic checks like this. Let’s move on to the log scale readings.
+
+---
+
+### 5. Exponentiation for Log Scale  
+
+**Prof** (Task):  
+The Left Chamber seems stable, but let’s calculate some properties to ensure it complies with safety regulations. Since it’s a cube, we’ll calculate the area of one side and the total volume. I remember that the volume must stay between 900 and 1200 units³ to comply with safety regulations.*"  
+The side length of the Left Chamber is 10 units. The formulas are simple:
+- *One Side’s Surface Area: `side_length^2`*  
+- *Volume of a cube: `side_length^3`*  
+
+Let’s use exponentiation (`**`) to perform these calculations.
+
+**Code Prompt:**  
+`side_length = 10`
+`# Calculate side_area and volume`
+`side_area = `
+`volume = `
+
+[The player types:  
+`side_area = side_length ** 2`  
+`volume = side_length ** 3`]
+
+**Feedback:**  
+- The dynamic panel updates:  
+  - `side_area`: 100  
+  - `volume`: 1000  
+
+**Prof**: Fantastic! The Left Chamber has a side area of 100 units² and a volume of 1000 units³. The volume is within the safety range. We can confidently proceed to the next task!
+
+---
+
+### 6. Repeating Messages with `str * n`  
+
+**Prof** (Task):  
+Let’s notify maintenance that the system is fixed. To make sure they notice, let’s repeat the message three times! Use the `*` operator to repeat the string.
+
+**Code Prompt:**  
+`message = "System fixed! " * 3`  
+
+[The player types: `message = "System fixed! " * 3`]  
+
+**Feedback:**  
+- The dynamic panel updates:  
+  - `message`: "System fixed! System fixed! System fixed!"  
+
+**Prof**: Excellent! I think they’ll get the message now. Let’s move on to logging everything we’ve done.
+
+---
+
+### 7. Adding Logs to a Master List  
+
+**Prof** (Task):  
+We’ve been keeping a list of recent operations in `session_logs`. Let’s merge this into the master log, `all_logs`, to maintain a full record of everything we’ve done. Use `+=` to combine the lists. Don't forget to set `session_logs` back to an empty list after merging.
+
+**Code Prompt:**  
+`all_logs `  
+
+[The player types: `all_logs += session_logs` and `session_logs = []`]  
+
+**Feedback:**  
+- The dynamic panel updates:  
+  - `all_logs`: ["System Initialized.", "Temperature Adjusted.", "Humidity Set.", "Unbalanced Chambers Detected!", "Balanced chambers to 250C.", "Pressure Calibrated Successfully."]
+  - `session_logs`: []
+
+**Prof**: Perfect! All our logs are now stored in one place. It’s great for keeping track of everything we’ve done.
+
+---
+
+### 8. Repeating Lists with `[a, b, c] * n`  
+
+**Prof** (Task):  
+Before we finish, let’s create a repeating pattern of operations for system testing. Create a list with two operations—`'temp_adjust'` and `'pressure_adjust'`—and repeat it three times.
+
+**Code Prompt:**  
+`test_pattern = ["temp_adjust", "pressure_adjust"] * 3`  
+
+[The player types: `test_pattern = ["temp_adjust", "pressure_adjust"] * 3`]  
+
+**Feedback:**  
+- The dynamic panel updates:  
+  - `test_pattern`: ["temp_adjust", "pressure_adjust", "temp_adjust", "pressure_adjust", "temp_adjust", "pressure_adjust"]  
+
+**Prof**: Fantastic! This repeating pattern will help us test the system’s stability...
+
+**Prof**: Amazing work! You’ve balanced temperatures, calibrated pressures, logged operations, and even created repeating sequences. You’ve mastered Python’s basic operations! Next up, we’ll make the system smarter with conditional logic. Ready to level up?

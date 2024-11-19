@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import CodeEditorSection from "@/components/CodeEditorSection";
 import PyDialogue from "@/components/PyDialogue";
 import HintsAccordion from "@/components/HintsAccordian";
-import IdCard from "@/components/IdCard";
+import Cabinet from "@/components/Cabinet";
 import { levels, Level } from "@/levels";
 import { useRouter } from "next/navigation";
 
@@ -23,6 +23,26 @@ export default function Game() {
   const [isDialogueDone, setIsDialogueDone] = useState(false);
 
   const currentStep = level.dialogue.steps[currentStepIndex];
+
+  const getOverlayNumber = (stepIndex: number) => {
+    switch (stepIndex) {
+      case 0:
+        return 0;
+      case 1:
+        return 4;
+      case 2:
+        return 5;
+      case 3:
+        return 8;
+      case 4:
+        return 9;
+      case 5:
+        return 9;
+      default:
+        return 0;
+    }
+  };
+
   React.useEffect(() => {
     if (isDialogueDone) {
       if (!currentStep.expectedOutput) {
@@ -131,12 +151,10 @@ export default function Game() {
           objectFit="cover"
           className="object-right blur-md"
         />
-        {Object.keys(variables).length > 0 && (
-          <div
-            id="id-card"
-            className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md overflow-hidden"
-          ></div>
-        )}
+
+        <div id="id-card" className="absolute ">
+          <Cabinet overlayNumber={getOverlayNumber(currentStepIndex)} />
+        </div>
 
         <PyDialogue
           text={currentStep.text}

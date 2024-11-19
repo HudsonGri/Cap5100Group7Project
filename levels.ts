@@ -143,23 +143,22 @@ export const levels: Level[] = [
     description:
       "In this level, you'll learn about lists in Python. Lists are a way to store multiple items in one variable, and they allow you to easily add, remove, and access elements.",
     hints: [
-      "Lists are defined using square brackets [], e.g., items = ['apple', 'banana']",
+      "Lists are defined using square brackets [], e.g., items = ['banana', 'cup']",
       "Use append() to add items to a list, e.g., items.append('pencil')",
-      "Use remove() to remove an item, e.g., items.remove('apple')",
+      "Use remove() to remove an item, e.g., items.remove('banana')",
       "Access items by their index, e.g., items[0] for the first item",
     ],
     dialogue: {
       steps: [
         {
           text:
-            "Welcome to the Storage Locker! In Python, we use lists to keep track of items, just like the compartments here. Each item in a list has its own spot, or index, starting from 0. Let's create a list for the items you see in this locker. Try typing this: `items = ['apple', 'banana', 'cup', 'pen', 'notebook']`.",
+            "Welcome to the Storage Locker! In Python, we use lists to keep track of items, just like the compartments here. Each item in a list has its own spot, or index, starting from 0. Let's create a list for the items you see in this locker. Try typing this: `items = ['banana', 'cup', 'pen', 'notebook']`.",
           expectedOutput: {
             output: "",
             variables: {
-              items: ["apple", "banana", "cup", "pen", "notebook"],
+              items: ["banana", "cup", "pen", "notebook"],
             },
-            expectedCode:
-              "items = ['apple', 'banana', 'cup', 'pen', 'notebook']",
+            expectedCode: "items = ['banana', 'cup', 'pen', 'notebook']",
           },
           hints: [
             "Lists are defined using square brackets []",
@@ -172,7 +171,7 @@ export const levels: Level[] = [
           expectedOutput: {
             output: "",
             variables: {
-              items: ["apple", "banana", "cup", "pen", "notebook", "pencil"],
+              items: ["banana", "cup", "pen", "notebook", "pencil"],
             },
             expectedCode: "items.append('pencil')",
           },
@@ -187,16 +186,7 @@ export const levels: Level[] = [
           expectedOutput: {
             output: "",
             variables: {
-              items: [
-                "apple",
-                "banana",
-                "cup",
-                "pen",
-                "notebook",
-                "pencil",
-                42,
-                true,
-              ],
+              items: ["banana", "cup", "pen", "notebook", "pencil", 42, true],
             },
             expectedCode: "items.append(42)\nitems.append(True)",
           },
@@ -207,13 +197,13 @@ export const levels: Level[] = [
         },
         {
           text:
-            "Fantastic! Now we have text, a number, and even a true/false value in one list. Python lists can hold almost anything! But, of course, sometimes we need to clean up a list. Oh no, the apple has gone bad! We can't keep it in the locker. Type `items.remove('apple')` and watch that rotten apple disappear!",
+            "Fantastic! Now we have text, a number, and even a true/false value in one list. Python lists can hold almost anything! But, of course, sometimes we need to clean up a list. Oh no, the banana has gone bad! We can't keep it in the locker. Type `items.remove('banana')` and watch that brown banana disappear!",
           expectedOutput: {
             output: "",
             variables: {
-              items: ["banana", "cup", "pen", "notebook", "pencil", 42, true],
+              items: ["cup", "pen", "notebook", "pencil", 42, true],
             },
-            expectedCode: "items.remove('apple')",
+            expectedCode: "items.remove('banana')",
           },
           hints: [
             "Use the remove() method to delete items",
@@ -226,8 +216,8 @@ export const levels: Level[] = [
           expectedOutput: {
             output: "",
             variables: {
-              fourth_item: "pen",
-              fifth_item: "notebook",
+              fourth_item: "pencil",
+              fifth_item: 42,
             },
             expectedCode: "fourth_item = items[3]\nfifth_item = items[4]",
           },
@@ -239,7 +229,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "Nicely done! Indexing starts from zero, so the fourth item is at `items[3]`. It's a useful way to grab any specific item in a list. Wait... do you hear that? The Hot Gas Chambers are acting up again! The system’s out of sync, and the control panel is flashing red. Quick, let’s head over to the chambers! We need to fix this before the system overloads. Follow me!",
+            "Nicely done! Indexing starts from zero, so the fourth item is at `items[3]`. It's a useful way to grab any specific item in a list. Wait... do you hear that? The Hot Gas Chambers are acting up again! The system's out of sync, and the control panel is flashing red. Quick, let's head over to the chambers! We need to fix this before the system overloads. Follow me!",
         },
       ],
     },

@@ -152,7 +152,7 @@ export default function Game() {
           className="object-right blur-md"
         />
 
-        <div id="id-card" className="absolute ">
+        <div className="absolute inset-x-0 flex justify-center mt-8">
           <Cabinet overlayNumber={getOverlayNumber(currentStepIndex)} />
         </div>
 

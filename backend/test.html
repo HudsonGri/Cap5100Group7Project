@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JWT Authentication Demo</title>
+    <style>
+        /* Simple styling to hide and show elements */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<h1>JWT Authentication Demo</h1>
+
+<!-- Authentication Section -->
+<div id="authSection">
+    <button id="assignIdBtn">Assign User ID and Login</button>
+    <br><br>
+    <label for="userIdInput">Login with User ID:</label>
+    <input id="userIdInput" placeholder="Enter User ID" type="number">
+    <button id="loginBtn">Login</button>
+</div>
+
+<!-- Logout Section -->
+<div class="hidden" id="logoutSection">
+    <button id="logoutBtn">Logout</button>
+</div>
+
+<!-- Log Data Section -->
+<div id="logDataSection">
+    <h2>Log Data</h2>
+    <textarea cols="50" id="dataInput" placeholder='Enter JSON data here' rows="10"></textarea>
+    <br>
+    <button id="logDataBtn">Log Data</button>
+</div>
+
+<p id="status"></p>
+
+<script>
+    const assignIdBtn = document.getElementById('assignIdBtn');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userIdInput = document.getElementById('userIdInput');
+    const status = document.getElementById('status');
+    const authSection = document.getElementById('authSection');
+    const logoutSection = document.getElementById('logoutSection');
+    const dataInput = document.getElementById('dataInput');
+    const logDataBtn = document.getElementById('logDataBtn');
+
+    let token = null;
+
+    const backendUrl = 'http://127.0.0.1:8000'; // Adjust if your backend is on a different URL
+
+    // Function to handle authentication state
+    function setAuthenticated(authenticated) {
+        if (authenticated) {
+            authSection.classList.add('hidden');
+            logoutSection.classList.remove('hidden');
+        } else {
+            authSection.classList.remove('hidden');
+            logoutSection.classList.add('hidden');
+            token = null;
+        }
+    }
+
+    // Assign User ID and Login
+    assignIdBtn.addEventListener('click', () => {
+        fetch(`${backendUrl}/assign_id`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.detail || 'Error assigning User ID.');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                const userId = data.user_id;
+                status.textContent = `Assigned and logged in with User ID: ${userId}`;
+                token = data.access_token;
+                setAuthenticated(true);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                status.textContent = error.message || 'Error assigning User ID.';
+            });
+    });
+
+    // Login with User ID
+    loginBtn.addEventListener('click', () => {
+        const userId = parseInt(userIdInput.value);
+        if (isNaN(userId)) {
+            status.textContent = 'Please enter a valid User ID.';
+            return;
+        }
+        loginWithUserId(userId);
+    });
+
+    function loginWithUserId(userId) {
+        fetch(`${backendUrl}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({user_id: userId}),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.detail || 'Error logging in.');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                token = data.access_token;
+                status.textContent = 'Logged in successfully.';
+                setAuthenticated(true);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                status.textContent = error.message || 'Error logging in.';
+            });
+    }
+
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+        token = null;
+        status.textContent = 'Logged out successfully.';
+        setAuthenticated(false);
+    });
+
+    // Log Data
+    logDataBtn.addEventListener('click', () => {
+        let newData;
+        try {
+            newData = JSON.parse(dataInput.value);
+        } catch (e) {
+            status.textContent = 'Invalid JSON data.';
+            return;
+        }
+        fetch(`${backendUrl}/log_data`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : '',
+            },
+            body: JSON.stringify({new_data: newData}),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.detail || 'Error logging data.');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                status.textContent = 'Data logged successfully.';
+                console.log('Response from /log_data:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                status.textContent = error.message || 'Error logging data.';
+            });
+    });
+</script>
+</body>
+</html>

@@ -137,4 +137,112 @@ export const levels: Level[] = [
     },
     codeTemplate: "# Type your Python code here\n",
   },
+  {
+    number: 3,
+    title: "Lists",
+    description:
+      "In this level, you'll learn about lists in Python. Lists are a way to store multiple items in one variable, and they allow you to easily add, remove, and access elements.",
+    hints: [
+      "Lists are defined using square brackets [], e.g., items = ['apple', 'banana']",
+      "Use append() to add items to a list, e.g., items.append('pencil')",
+      "Use remove() to remove an item, e.g., items.remove('apple')",
+      "Access items by their index, e.g., items[0] for the first item",
+    ],
+    dialogue: {
+      steps: [
+        {
+          text:
+            "Welcome to the Storage Locker! In Python, we use lists to keep track of items, just like the compartments here. Each item in a list has its own spot, or index, starting from 0. Let's create a list for the items you see in this locker. Try typing this: `items = ['apple', 'banana', 'cup', 'pen', 'notebook']`.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              items: ["apple", "banana", "cup", "pen", "notebook"],
+            },
+            expectedCode:
+              "items = ['apple', 'banana', 'cup', 'pen', 'notebook']",
+          },
+          hints: [
+            "Lists are defined using square brackets []",
+            "Separate items in a list with commas",
+          ],
+        },
+        {
+          text:
+            "Nicely done! Now we have a list with everything in the locker. Lists are powerful because they allow us to add, remove, or access items easily. Speaking of which, let's see how we can add something new to the list. Uh-oh! We forgot something -- a pencil. Use `items.append('pencil')` to add it to the list!",
+          expectedOutput: {
+            output: "",
+            variables: {
+              items: ["apple", "banana", "cup", "pen", "notebook", "pencil"],
+            },
+            expectedCode: "items.append('pencil')",
+          },
+          hints: [
+            "Use the append() method to add new items",
+            "The syntax is list.append(item)",
+          ],
+        },
+        {
+          text:
+            "Brilliant! The list has taken it in without breaking a sweat. Python lists are quite flexible -- they can hold all kinds of things, not just text. In fact, let's push the boundaries a bit. Try adding the number `42` and the boolean `True` to the list. Use `append()` again, just like with the pencil!",
+          expectedOutput: {
+            output: "",
+            variables: {
+              items: [
+                "apple",
+                "banana",
+                "cup",
+                "pen",
+                "notebook",
+                "pencil",
+                42,
+                true,
+              ],
+            },
+            expectedCode: "items.append(42)\nitems.append(True)",
+          },
+          hints: [
+            "Lists can hold different types of data",
+            "Use append() for both 42 and True",
+          ],
+        },
+        {
+          text:
+            "Fantastic! Now we have text, a number, and even a true/false value in one list. Python lists can hold almost anything! But, of course, sometimes we need to clean up a list. Oh no, the apple has gone bad! We can't keep it in the locker. Type `items.remove('apple')` and watch that rotten apple disappear!",
+          expectedOutput: {
+            output: "",
+            variables: {
+              items: ["banana", "cup", "pen", "notebook", "pencil", 42, true],
+            },
+            expectedCode: "items.remove('apple')",
+          },
+          hints: [
+            "Use the remove() method to delete items",
+            "The syntax is list.remove(item)",
+          ],
+        },
+        {
+          text:
+            "Excellent! Removing items is just as easy as adding them. Now, let's talk about how to access specific items in a list. Each item in a list has an index. For example, `items[0]` gives you the first item, and `items[1]` gives you the second item. Why don't you try accessing the *fourth* and *fifth* items on your own? Think about the index numbers!",
+          expectedOutput: {
+            output: "",
+            variables: {
+              fourth_item: "pen",
+              fifth_item: "notebook",
+            },
+            expectedCode: "fourth_item = items[3]\nfifth_item = items[4]",
+          },
+          codeImport: "fourth_item = \nfifth_item = ",
+          hints: [
+            "Indexing starts from 0",
+            "Use list[index] to access specific items",
+          ],
+        },
+        {
+          text:
+            "Nicely done! Indexing starts from zero, so the fourth item is at `items[3]`. It's a useful way to grab any specific item in a list. Wait... do you hear that? The Hot Gas Chambers are acting up again! The system’s out of sync, and the control panel is flashing red. Quick, let’s head over to the chambers! We need to fix this before the system overloads. Follow me!",
+        },
+      ],
+    },
+    codeTemplate: "# Type your Python code here\n",
+  },
 ];

@@ -60,7 +60,7 @@ export default function Overworld() {
       </div>
 
       <div style={{ position: "absolute", bottom: 500, right: 500 }}>
-        <Link href="/demogame">
+        <Link href="/game/3">
           <div className="relative">
             <Image
               src="/game/level_objects/D_temperature control.png"

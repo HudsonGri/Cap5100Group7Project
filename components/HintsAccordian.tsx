@@ -22,7 +22,7 @@ const HintsAccordion: React.FC<HintsAccordionProps> = ({ hints }) => {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          <ul className="list-none space-y-2">
+          <ul className="list-none space-y-2 text-base">
             {hints.map((hint, index) => (
               <li key={index} className="flex items-start gap-2 text-zinc-300">
                 <span className="text-blue-400">•</span>

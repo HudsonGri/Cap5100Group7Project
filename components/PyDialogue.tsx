@@ -75,7 +75,7 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
                       .map((step, index) => (
                         <div className="py-1" key={index}>
                           <div className="rounded overflow-hidden">
-                            <p className="text-sm border-l-2 border-zinc-700 pl-2 bg-black/20">
+                            <p className="text-sm border-l-2 border-zinc-700 pl-2 bg-black/20 p-0.5">
                               <Markdown>{step.text}</Markdown>
                             </p>
                           </div>

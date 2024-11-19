@@ -111,12 +111,7 @@ const CodeEditorSection = ({
       <Button
         className="w-full py-6 text-lg font-semibold bg-blue-600 hover:bg-blue-700"
         onClick={onRunCode}
-        disabled={
-          !currentStep.expectedOutput ||
-          currentStep.expectedOutput?.expectedCode === code ||
-          isDisabled ||
-          isRunning
-        }
+        disabled={!currentStep.expectedOutput || isDisabled || isRunning}
       >
         {isRunning ? (
           <span className="flex items-center gap-2">

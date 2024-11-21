@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TypewriterText from "@/components/TypewriterText";
-import { MessageSquareTextIcon } from "lucide-react";
+import { MessageSquareTextIcon, ArrowRightIcon } from "lucide-react";
 import Markdown from "react-markdown";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 
 interface DialogueStep {
   text: string;
@@ -31,11 +33,19 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
   onDialogueDone,
 }) => {
   const dialogueRef = useRef<HTMLDivElement>(null);
+  const [isTypingDone, setIsTypingDone] = useState(false);
+  const [showDoneButton, setShowDoneButton] = useState(false);
+
+  const displayText = text.endsWith("DONE_BUTTON")
+    ? text.slice(0, -11) // Remove "DONE_BUTTON"
+    : text;
 
   useEffect(() => {
     if (dialogueRef.current) {
       dialogueRef.current.scrollTop = dialogueRef.current.scrollHeight;
     }
+    setShowDoneButton(text.endsWith("DONE_BUTTON"));
+    setIsTypingDone(false);
   }, [text]);
 
   return (
@@ -54,8 +64,24 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
           />
         </div>
       </div>
-      <div className="text-white text-xl p-4">
-        <TypewriterText text={text} onComplete={onDialogueDone} />
+      <div className="text-white text-xl p-4 flex flex-col items-center">
+        <TypewriterText
+          text={displayText}
+          onComplete={() => {
+            setIsTypingDone(true);
+            if (!showDoneButton) {
+              onDialogueDone?.();
+            }
+          }}
+        />
+        {showDoneButton && isTypingDone && (
+          <Link href="/overworld">
+            <Button className="mt-4 text-lg px-6 py-4">
+              Continue
+              <ArrowRightIcon />
+            </Button>
+          </Link>
+        )}
       </div>
       {stepIndex > 0 && (
         <div className="absolute bottom-2 right-2">

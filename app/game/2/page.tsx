@@ -42,14 +42,6 @@ export default function Game() {
     level.dialogue.steps.length,
   ]);
 
-  React.useEffect(() => {
-    if (levelDone) {
-      setTimeout(() => {
-        router.push("/overworld");
-      }, 8000);
-    }
-  }, [levelDone, router]);
-
   const updateVariables = (newVars) => {
     setVariables((prev) => ({
       ...prev,

@@ -22,14 +22,6 @@ export default function Game() {
 
   const currentStep = level.dialogue.steps[currentStepIndex];
 
-  useEffect(() => {
-    if (levelDone) {
-      setTimeout(() => {
-        router.push("/overworld");
-      }, 5000);
-    }
-  }, [levelDone, router]);
-
   const runCode = async () => {
     try {
       setIsRunning(true);

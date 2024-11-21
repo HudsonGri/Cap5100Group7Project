@@ -23,7 +23,7 @@ export default function Game() {
 
   const currentStep = level.dialogue.steps[currentStepIndex];
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isDialogueDone) {
       if (!currentStep.expectedOutput) {
         setTimeout(() => {
@@ -41,14 +41,6 @@ export default function Game() {
     currentStepIndex,
     level.dialogue.steps.length,
   ]);
-
-  React.useEffect(() => {
-    if (levelDone) {
-      setTimeout(() => {
-        router.push("/overworld");
-      }, 8000);
-    }
-  }, [levelDone, router]);
 
   const updateVariables = (newVars) => {
     setVariables((prev) => ({
@@ -79,8 +71,11 @@ export default function Game() {
       if (
         result.variables &&
         currentStep.expectedOutput &&
-        currentStep.expectedOutput.variables &&
-        Object.keys(currentStep.expectedOutput.variables).every((key) => {
+        currentStep.expectedOutput.variables
+      ) {
+        const areVariablesMatching = Object.keys(
+          currentStep.expectedOutput.variables
+        ).every((key) => {
           if (Array.isArray(currentStep.expectedOutput.variables[key])) {
             return (
               Array.isArray(result.variables[key]) &&
@@ -94,25 +89,25 @@ export default function Game() {
           }
           return (
             result.variables[key] !== undefined &&
-            typeof result.variables[key] ===
-              typeof currentStep.expectedOutput.variables[key]
+            result.variables[key] === currentStep.expectedOutput.variables[key]
           );
-        })
-      ) {
-        if (result.variables) {
-          updateVariables(result.variables);
+        });
+
+        if (areVariablesMatching) {
+          if (result.variables) {
+            updateVariables(result.variables);
+          }
+          setTimeout(() => {
+            setCurrentStepIndex((prev) =>
+              prev + 1 < level.dialogue.steps.length ? prev + 1 : prev
+            );
+            setLevelDone(currentStepIndex + 1 >= level.dialogue.steps.length);
+          }, 2000);
+        } else {
+          setFailureMessage(
+            "Oops, your output doesn't match the expected output. Check hints or click the help icon for guidance."
+          );
         }
-        setTimeout(() => {
-          setCurrentStepIndex((prev) =>
-            prev + 1 < level.dialogue.steps.length ? prev + 1 : prev
-          );
-          setLevelDone(currentStepIndex + 1 >= level.dialogue.steps.length);
-        }, 2000);
-      } else {
-        console.log("else");
-        setFailureMessage(
-          "Oops, your output doesn't match the expected output. Check hints or click the help icon for guidance."
-        );
       }
     } catch (error) {
       console.error(error);

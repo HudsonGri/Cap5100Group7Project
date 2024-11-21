@@ -79,7 +79,7 @@ export default function Overworld() {
       </div>
 
       <div style={{ position: "absolute", bottom: 350, right: 700 }}>
-        <Link href="/demogame">
+        <Link href="/game/4">
           <div className="relative">
             <Image
               src="/game/level_objects/E_labeling machine.png"

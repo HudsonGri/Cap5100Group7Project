@@ -46,7 +46,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "Excellent work! You've made your first print statement in Python! Now lets go back to the lab. Redirecting you now...",
+            "Excellent work! You've made your first print statement in Python! Now lets go back to the lab.DONE_BUTTON",
         },
       ],
     },
@@ -131,7 +131,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "Now that's a proper lab ID! You've handled strings, integers, floats, and Booleans like a pro. Next up, let's visit the storage locker. It's time to learn about lists so we can keep track of items in the lab. Ready? Redirecting you now...",
+            "Now that's a proper lab ID! You've handled strings, integers, floats, and Booleans like a pro. Next up, let's visit the storage locker. It's time to learn about lists so we can keep track of items in the lab. Ready?DONE_BUTTON",
         },
       ],
     },
@@ -229,7 +229,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "Nicely done! Indexing starts from zero, so the fourth item is at `items[3]`. It's a useful way to grab any specific item in a list. Wait... do you hear that? The Hot Gas Chambers are acting up again! The system's out of sync, and the control panel is flashing red. Quick, let's head over to the chambers! We need to fix this before the system overloads. Follow me!",
+            "Nicely done! Indexing starts from zero, so the fourth item is at `items[3]`. It's a useful way to grab any specific item in a list. Wait... do you hear that? The Hot Gas Chambers are acting up again! The system's out of sync, and the control panel is flashing red. Quick, let's head over to the chambers! We need to fix this before the system overloads.DONE_BUTTON",
         },
       ],
     },
@@ -244,13 +244,11 @@ export const levels: Level[] = [
       steps: [
         {
           text:
-            "The Hot Gas Chambers are out of sync! One chamber is at 200°C, and the other is at 300°C. To stabilize them, we need to calculate the average temperature of both chambers and assign it to `target_temperature`.\n\nWhich is to say, we need to add the temperatures of the left and right chambers together and then divide the result by 2. This will give us the balanced target temperature. Let’s do it! Remember, Python uses `/` for division, and don't forget to use parentheses to ensure the correct order of operations.",
+            "The Hot Gas Chambers are out of sync! One chamber is at 200°C, and the other is at 300°C. To stabilize them, we need to calculate the average temperature of both chambers and assign it to `target_temperature`.\nWhich is to say, we need to add the temperatures of the left and right chambers together and then divide the result by 2. This will give us the balanced target temperature. Let’s do it! Remember, Python uses `/` for division, and don't forget to use parentheses to ensure the correct order of operations.",
           expectedOutput: {
             output: "",
             variables: {
               target_temperature: 250,
-              temperature_left: 250,
-              temperature_right: 250,
               last_log: "Adjusted chambers to",
             },
             expectedCode:
@@ -426,7 +424,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "Amazing work! You’ve balanced temperatures, calibrated pressures, logged operations, and even created repeating sequences. You’ve mastered Python’s basic operations! Next up, we’ll make the system smarter with conditional logic. Ready to level up?",
+            "Amazing work! You’ve balanced temperatures, calibrated pressures, logged operations, and even created repeating sequences. You’ve mastered Python’s basic operations! Next up, we’ll make the system smarter with conditional logic.DONE_BUTTON",
           expectedOutput: {
             output: "",
             variables: {},

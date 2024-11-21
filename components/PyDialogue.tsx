@@ -54,7 +54,7 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
           />
         </div>
       </div>
-      <div className="text-white text-xl p-4 h-1/2">
+      <div className="text-white text-xl p-4">
         <TypewriterText text={text} onComplete={onDialogueDone} />
       </div>
       {stepIndex > 0 && (

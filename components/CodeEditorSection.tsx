@@ -94,7 +94,7 @@ const CodeEditorSection = ({
           ) : null}
           <CodeEditor
             className="rounded-md overflow-hidden"
-            height="200px"
+            height="350px"
             defaultLanguage="python"
             theme="vs-dark"
             value={code}

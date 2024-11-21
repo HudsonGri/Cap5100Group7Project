@@ -235,4 +235,209 @@ export const levels: Level[] = [
     },
     codeTemplate: "# Type your Python code here\n",
   },
+  {
+    number: 4,
+    title: "Pressure Calibration",
+    description: "", // FIX
+    hints: [], // FIX
+    dialogue: {
+      steps: [
+        {
+          text:
+            "The Hot Gas Chambers are out of sync! One chamber is at 200°C, and the other is at 300°C. To stabilize them, we need to calculate the average temperature of both chambers and assign it to `target_temperature`.\n\nWhich is to say, we need to add the temperatures of the left and right chambers together and then divide the result by 2. This will give us the balanced target temperature. Let’s do it! Remember, Python uses `/` for division, and don't forget to use parentheses to ensure the correct order of operations.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              target_temperature: 250,
+              temperature_left: 250,
+              temperature_right: 250,
+              last_log: "Adjusted chambers to",
+            },
+            expectedCode:
+              "target_temperature = (temperature_left + temperature_right) / 2",
+          },
+          hints: [
+            "Use parentheses to ensure correct order of operations",
+            "Remember to use the `/` operator for division",
+          ],
+        },
+        {
+          text:
+            "The operation log is incomplete—it says nothing useful. Let’s update it to say what we just did! Start by adding 'Adjusted chambers to 250C' to `last_log`. Use string concatenation to do this.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              last_log: "Adjusted chambers to 250C",
+            },
+            expectedCode: "last_log = last_log + '250C'",
+          },
+          hints: [
+            "Use the `+` operator to concatenate strings",
+            "Ensure proper spacing and punctuation in the log message",
+          ],
+        },
+        {
+          text:
+            'Great job ! Instead of writing `x = x + y` again, let’s use the shorthand `+=`. Add a period (".") to `last_log` using this shortcut.',
+          expectedOutput: {
+            output: "",
+            variables: {
+              last_log: "Adjusted chambers to 250C.",
+            },
+            expectedCode: "last_log += '.'",
+          },
+          codeImport: "last_log",
+          hints: [
+            "The `+=` operator is a shorthand for appending or adding",
+            "Use quotes to add a string character",
+          ],
+        },
+        {
+          text:
+            "The pressure gauge needs recalibration. We’ll calculate a new pressure value based on the temperature and humidity using this formula:\n\n`calibrated_pressure = (temperature_left + humidity * 2) / 5 - 2`\n\nThis involves addition, multiplication, division, and subtraction. Let’s calculate the pressure.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              calibrated_pressure: 80,
+            },
+            expectedCode:
+              "calibrated_pressure = (temperature_left + humidity * 2) / 5 - 2",
+          },
+          codeImport: "humidity = 105\ncalibrated_pressure = ",
+          hints: [
+            "Follow the order of operations: parentheses, multiplication, division, addition, subtraction",
+            "Use parentheses to ensure calculations are performed correctly",
+          ],
+        },
+        {
+          text:
+            "We need to verify if the `calibrated_pressure` is divisible by 3. Use the modulo operator to find the remainder when `calibrated_pressure` is divided by 3.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              remainder: 2,
+            },
+            expectedCode: "remainder = calibrated_pressure % 3",
+          },
+          codeImport: "remainder = ",
+          hints: [
+            "The `%` operator returns the remainder of a division",
+            "Check if `calibrated_pressure` modulo 3 equals 0",
+          ],
+        },
+        {
+          text:
+            "Subtract the remainder from `calibrated_pressure` to make it divisible by 3. Use the `-=` operator for this adjustment.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              calibrated_pressure: 78,
+            },
+            expectedCode: "calibrated_pressure -= remainder",
+          },
+          hints: [
+            "The `-=` operator subtracts the value from the variable and assigns it back",
+            "Ensure the new `calibrated_pressure` is divisible by 3",
+          ],
+        },
+        {
+          text:
+            "The Left Chamber seems stable, but let’s calculate some properties to ensure it complies with safety regulations. Since it’s a cube, we’ll calculate the area of one side and the total volume. I remember that the volume must stay between 900 and 1200 units³ to comply with safety regulations.\n\nThe side length of the Left Chamber is 10 units. The formulas are simple:\n- *One Side’s Surface Area:* `side_length ** 2`\n- *Volume of a cube:* `side_length ** 3`\n\nLet’s use exponentiation (`**`) to perform these calculations.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              side_length: 10,
+              side_area: 100,
+              volume: 1000,
+            },
+            expectedCode:
+              "side_area = side_length ** 2\nvolume = side_length ** 3",
+          },
+          codeImport: "\nside_length = 10\nside_area = \nvolume = ",
+          hints: [
+            "Use `**` for exponentiation in Python",
+            "Calculate surface area and volume separately",
+          ],
+        },
+        {
+          text:
+            "Let’s notify maintenance that the system is fixed. To make sure they notice, let’s repeat the message three times! Use the `*` operator to repeat the string.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              message: "System fixed! System fixed! System fixed! ",
+            },
+            expectedCode: 'message = "System fixed! " * 3',
+          },
+          codeImport: 'message = "System fixed!"',
+          hints: [
+            "The `*` operator can be used to repeat strings",
+            "Ensure the string is enclosed in quotes",
+          ],
+        },
+        {
+          text:
+            "We’ve been keeping a list of recent operations in `session_logs`. Let’s merge this into the master log, `all_logs`, to maintain a full record of everything we’ve done. Use `+=` to combine the lists. Don't forget to set `session_logs` back to an empty list after merging.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              all_logs: [
+                "System Initialized",
+                "Temperature Adjusted",
+                "Humidity Set",
+                "Unbalanced Chambers Detected",
+                "Adjusted chambers to 250C.",
+                "Pressure calibrated successfully.",
+              ],
+              session_logs: [],
+            },
+            expectedCode: "all_logs += session_logs\nsession_logs = []",
+          },
+          codeImport:
+            'all_logs = []\nsession_logs = ["System Initialized", "Temperature Adjusted", "Humidity Set", "Unbalanced Chambers Detected","Adjusted chambers to 250C.", "Pressure calibrated successfully."]\nall_logs',
+          hints: [
+            "Use `+=` to concatenate lists",
+            "Reset `session_logs` after merging to keep it empty",
+          ],
+        },
+        {
+          text:
+            "Before we finish, let’s create a repeating pattern of operations for system testing. Create a list with two operations—`'temp_adjust'` and `'pressure_adjust'`—and repeat it three times.",
+          expectedOutput: {
+            output: "",
+            variables: {
+              test_pattern: [
+                "temp_adjust",
+                "pressure_adjust",
+                "temp_adjust",
+                "pressure_adjust",
+                "temp_adjust",
+                "pressure_adjust",
+              ],
+            },
+            expectedCode:
+              'test_pattern = ["temp_adjust", "pressure_adjust"] * 3',
+          },
+          codeImport: 'test_pattern = ["temp_adjust", "pressure_adjust"]',
+          hints: [
+            "Use the `*` operator to repeat lists",
+            "Ensure the list items are correctly quoted",
+          ],
+        },
+        {
+          text:
+            "Amazing work! You’ve balanced temperatures, calibrated pressures, logged operations, and even created repeating sequences. You’ve mastered Python’s basic operations! Next up, we’ll make the system smarter with conditional logic. Ready to level up?",
+          expectedOutput: {
+            output: "",
+            variables: {},
+            expectedCode: "",
+          },
+          hints: [],
+        },
+      ],
+    },
+    codeTemplate:
+      'temperature_left = 200\ntemperature_right = 300\ntarget_temperature = \nlast_log = "Adjusted chambers to"',
+  },
+  ,
 ];

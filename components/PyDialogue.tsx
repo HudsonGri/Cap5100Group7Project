@@ -64,7 +64,7 @@ const PyDialogue: React.FC<PyDialogueProps> = ({
           />
         </div>
       </div>
-      <div className="text-white text-xl p-4 flex flex-col items-center">
+      <div className="text-white text-xl p-4 flex flex-col">
         <TypewriterText
           text={displayText}
           onComplete={() => {

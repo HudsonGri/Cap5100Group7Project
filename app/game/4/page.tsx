@@ -6,8 +6,100 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import CodeEditorSection from "@/components/CodeEditorSection";
 import PyDialogue from "@/components/PyDialogue";
 import HintsAccordion from "@/components/HintsAccordian";
+
+import Chambers from "@/components/Chambers";
 import { levels, Level } from "@/levels";
 import { useRouter } from "next/navigation";
+
+// Chamber data structure to store step-specific values
+type ChamberData = {
+  logs: string[];
+  temp_array: string[];
+  flicker: boolean;
+};
+
+const chamberStates: ChamberData[] = [
+  {
+    logs: [
+      "System Initialized",
+      "Temperature Adjusted",
+      "Humidity Set",
+      "Unbalanced Chambers Detected",
+      "Adjusted chambers to",
+    ],
+    temp_array: ["200C", "300C"],
+    flicker: true,
+  },
+  {
+    logs: [
+      "System Initialized",
+      "Temperature Adjusted",
+      "Humidity Set",
+      "Unbalanced Chambers Detected",
+      "Adjusted chambers to",
+    ],
+    temp_array: ["250F", "250F"],
+    flicker: false,
+  },
+  {
+    logs: [
+      "System Initialized",
+      "Temperature Adjusted",
+      "Humidity Set",
+      "Unbalanced Chambers Detected",
+      "Adjusted chambers to 250C",
+    ],
+    temp_array: ["250C", "250C"],
+    flicker: false,
+  },
+  {
+    logs: [
+      "System Initialized",
+      "Temperature Adjusted",
+      "Humidity Set",
+      "Unbalanced Chambers Detected",
+      "Adjusted chambers to 250C.",
+    ],
+    temp_array: ["250C", "250C"],
+    flicker: false,
+  },
+  {
+    logs: [
+      "System Initialized",
+      "Temperature Adjusted",
+      "Humidity Set",
+      "Unbalanced Chambers Detected",
+      "Adjusted chambers to 250C.",
+      "Pressure calibrated. Need to validate remainder.",
+    ],
+    temp_array: ["250C", "250C"],
+    flicker: false,
+  },
+  {
+    logs: [
+      "System Initialized",
+      "Temperature Adjusted",
+      "Humidity Set",
+      "Unbalanced Chambers Detected",
+      "Adjusted chambers to 250C.",
+      "Pressure calibrated. Need to validate remainder.",
+    ],
+    temp_array: ["250C", "250C"],
+    flicker: false,
+  },
+  {
+    logs: [
+      "System Initialized",
+      "Temperature Adjusted",
+      "Humidity Set",
+      "Unbalanced Chambers Detected",
+      "Adjusted chambers to 250C.",
+      "Pressure calibrated successfully.",
+    ],
+    temp_array: ["250C", "250C"],
+    flicker: false,
+  },
+];
 
 export default function Game() {
   const router = useRouter();
@@ -20,10 +112,17 @@ export default function Game() {
   const [variables, setVariables] = useState({});
   const [isRunning, setIsRunning] = useState(false);
   const [isDialogueDone, setIsDialogueDone] = useState(false);
+  const [currentChamberData, setCurrentChamberData] = useState<ChamberData>(
+    chamberStates[0]
+  );
 
   const currentStep = level.dialogue.steps[currentStepIndex];
 
   useEffect(() => {
+    setCurrentChamberData(
+      chamberStates[Math.min(currentStepIndex, chamberStates.length - 1)]
+    );
+
     if (isDialogueDone) {
       if (!currentStep.expectedOutput) {
         setTimeout(() => {
@@ -118,7 +217,7 @@ export default function Game() {
 
   return (
     <main className="flex h-screen bg-zinc-900 dark">
-      <div className="relative flex-grow">
+      <div className="relative flex-grow flex flex-col items-center">
         <Image
           src="/game/terminal.png"
           alt="Game Background"
@@ -127,7 +226,13 @@ export default function Game() {
           className="object-right blur-md"
         />
 
-        <div className="absolute inset-x-0 flex justify-center mt-8"></div>
+        <div className="relative z-10 pt-24">
+          <Chambers
+            logs={currentChamberData.logs}
+            temp_array={currentChamberData.temp_array}
+            flicker={currentChamberData.flicker}
+          />
+        </div>
 
         <PyDialogue
           text={currentStep.text}

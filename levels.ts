@@ -261,7 +261,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "The operation log is incomplete—it says nothing useful. Let’s update it to say what we just did! Start by adding 'Adjusted chambers to 250C' to `last_log`. Use string concatenation to do this.",
+            "The temperatures have been sycned! Now the operation log is incomplete—it says nothing useful. Let’s update it to say what we just did! Start by adding 'Adjusted chambers to 250C' to `last_log`. Use string concatenation to do this.",
           expectedOutput: {
             output: "",
             variables: {
@@ -292,7 +292,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "The pressure gauge needs recalibration. We’ll calculate a new pressure value based on the temperature and humidity using this formula:\n\n`calibrated_pressure = (temperature_left + humidity * 2) / 5 - 2`\n\nThis involves addition, multiplication, division, and subtraction. Let’s calculate the pressure.",
+            "The pressure gauge needs recalibration. We’ll calculate a new pressure value based on the temperature and humidity using this formula:\n`calibrated_pressure = (temperature_left + humidity * 2) / 5 - 2`\nThis involves addition, multiplication, division, and subtraction. Let’s calculate the pressure.",
           expectedOutput: {
             output: "",
             variables: {
@@ -340,7 +340,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "The Left Chamber seems stable, but let’s calculate some properties to ensure it complies with safety regulations. Since it’s a cube, we’ll calculate the area of one side and the total volume. I remember that the volume must stay between 900 and 1200 units³ to comply with safety regulations.\n\nThe side length of the Left Chamber is 10 units. The formulas are simple:\n- *One Side’s Surface Area:* `side_length ** 2`\n- *Volume of a cube:* `side_length ** 3`\n\nLet’s use exponentiation (`**`) to perform these calculations.",
+            "The Left Chamber seems stable, but let’s calculate some properties to ensure it complies with safety regulations. Since it’s a cube, we’ll calculate the area of one side and the total volume. I remember that the volume must stay between 900 and 1200 units³ to comply with safety regulations.\nThe side length of the Left Chamber is 10 units. The formulas are simple:\n- *One Side’s Surface Area:* `side_length ** 2`\n- *Volume of a cube:* `side_length ** 3`\nLet’s use exponentiation (`**`) to perform these calculations.",
           expectedOutput: {
             output: "",
             variables: {
@@ -367,7 +367,7 @@ export const levels: Level[] = [
             },
             expectedCode: 'message = "System fixed! " * 3',
           },
-          codeImport: 'message = "System fixed!"',
+          codeImport: 'message = "System fixed! "',
           hints: [
             "The `*` operator can be used to repeat strings",
             "Ensure the string is enclosed in quotes",

@@ -47,6 +47,11 @@ const CodeEditorSection = ({
   const handleHelpClick = async () => {
     try {
       setIsLoadingHelp(true);
+      const userId = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userId="))
+        ?.split("=")[1];
+
       const response = await fetch(
         //"http://localhost:8000/llm",
         "https://interpret-api.onrender.com/llm",
@@ -55,11 +60,11 @@ const CodeEditorSection = ({
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include",
           body: JSON.stringify({
             expected_code: currentStep?.expectedOutput?.expectedCode,
             user_code: code,
             error: codeOutput.output,
+            userId,
           }),
         }
       );

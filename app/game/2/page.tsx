@@ -53,6 +53,11 @@ export default function Game() {
     setIsRunning(true);
     setFailureMessage(""); // Clear failure message when running new code
     try {
+      const userId = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userId="))
+        ?.split("=")[1];
+
       const response = await fetch(
         "https://interpret-api.onrender.com/execute_code",
         //"http://localhost:8000/execute_code",
@@ -60,10 +65,11 @@ export default function Game() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": "true",
           },
-          body: JSON.stringify({ code }),
-          credentials: "include",
+          body: JSON.stringify({
+            code,
+            userId,
+          }),
           mode: "cors",
         }
       );

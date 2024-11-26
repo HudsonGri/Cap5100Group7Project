@@ -24,15 +24,24 @@ export default function Game() {
 
   const runCode = async () => {
     try {
-      setIsRunning(true);
+      const userId = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userId="))
+        ?.split("=")[1];
+
       const response = await fetch(
-        //"http://localhost:8000/execute_code",
         "https://interpret-api.onrender.com/execute_code",
+        //"http://localhost:8000/execute_code",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code }),
-          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            code,
+            userId,
+          }),
+          mode: "cors",
         }
       );
 

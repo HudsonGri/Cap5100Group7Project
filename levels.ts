@@ -261,7 +261,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "The temperatures have been sycned! Now the operation log is incomplete—it says nothing useful. Let’s update it to say what we just did! Start by adding 'Adjusted chambers to 250C' to `last_log`. Use string concatenation to do this.",
+            "The temperatures have been synced! Now the operation log is incomplete—it says nothing useful. Let’s update it to say what we just did! Start by adding 'Adjusted chambers to 250C' to `last_log`. Use string concatenation (+) to do this.",
           expectedOutput: {
             output: "",
             variables: {
@@ -309,7 +309,7 @@ export const levels: Level[] = [
         },
         {
           text:
-            "We need to verify if the `calibrated_pressure` is divisible by 3. Use the modulo operator to find the remainder when `calibrated_pressure` is divided by 3.",
+            "We need to verify if the `calibrated_pressure` is divisible by 3. Use the modulo operator (%) to find the remainder when `calibrated_pressure` is divided by 3.",
           expectedOutput: {
             output: "",
             variables: {
@@ -333,6 +333,7 @@ export const levels: Level[] = [
             },
             expectedCode: "calibrated_pressure -= remainder",
           },
+          codeImport: "calibrated_pressure",
           hints: [
             "The `-=` operator subtracts the value from the variable and assigns it back",
             "Ensure the new `calibrated_pressure` is divisible by 3",
@@ -389,7 +390,7 @@ export const levels: Level[] = [
               ],
               session_logs: [],
             },
-            expectedCode: "all_logs += session_logs\nsession_logs = []",
+            expectedCode: "all_logs += session_logs\nsession_logs = []\n",
           },
           codeImport:
             'all_logs = []\nsession_logs = ["System Initialized", "Temperature Adjusted", "Humidity Set", "Unbalanced Chambers Detected","Adjusted chambers to 250C.", "Pressure calibrated successfully."]\nall_logs',

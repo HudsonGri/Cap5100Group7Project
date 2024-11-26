@@ -55,6 +55,7 @@ const CodeEditorSection = ({
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({
             expected_code: currentStep?.expectedOutput?.expectedCode,
             user_code: code,

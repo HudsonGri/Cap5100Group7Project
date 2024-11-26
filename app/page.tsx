@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!userId) {
-      fetch("http://localhost:8000/generate_id", {
+      fetch("https://interpret-api.onrender.com/generate_id", {
         method: "POST",
       })
         .then((res) => res.json())

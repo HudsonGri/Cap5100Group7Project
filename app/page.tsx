@@ -17,7 +17,7 @@ export default function Home() {
       })
         .then((res) => res.json())
         .then((data) => {
-          Cookies.set("userId", data.id);
+          Cookies.set("userId", data.id, { expires: 365 });
           setUserId(data.id);
         });
     }

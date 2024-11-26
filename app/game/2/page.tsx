@@ -58,9 +58,13 @@ export default function Game() {
         //"http://localhost:8000/execute_code",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": "true",
+          },
           body: JSON.stringify({ code }),
           credentials: "include",
+          mode: "cors",
         }
       );
 

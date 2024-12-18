@@ -11,6 +11,10 @@ export default function Home() {
   );
 
   useEffect(() => {
+    fetch("https://interpret-api.onrender.com/health", {
+      method: "GET",
+    });
+
     if (!userId) {
       fetch("https://interpret-api.onrender.com/generate_id", {
         method: "POST",
